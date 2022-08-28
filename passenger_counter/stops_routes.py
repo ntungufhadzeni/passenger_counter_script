@@ -1,8 +1,13 @@
+import time
+
 import pandas as pd
 import numpy as np
 import requests
 import warnings
 import json
+
+from urllib3.exceptions import NewConnectionError, ConnectTimeoutError
+
 from . import location
 from .dates import add_date, add_week
 
@@ -45,6 +50,7 @@ def get_stops_routes(arg_df):
             continue
         elif location.is_fuel_wise(lat, lon):
             arg_df.loc[index, 'Stop Name'] = 'Fuel Wise'
+            continue
 
         url = 'http://46.101.72.176:8080/otp/routers/default/index/stops'
         params = {'lat': lat, 'lon': lon, 'radius': 300}
@@ -52,6 +58,7 @@ def get_stops_routes(arg_df):
         try:
             response = requests.get(url, params=params)
         except:
+            time.sleep(10)
             response = requests.get(url, params=params)
 
         if response.status_code == 200:
@@ -94,5 +101,7 @@ def get_stops_routes(arg_df):
         ['Bus No', 'IN', 'Out', 'Number of people', 'Alarm Time', 'GNSS', 'Stop Name', 'Route', 'Date', 'DOW', 'MY',
          'Week']]
     arg_df['Alarm Time'] = pd.to_datetime(arg_df['Alarm Time'])
+    arg_df['Run'] = np.NaN
+    arg_df['Run_id'] = np.NaN
 
     return arg_df

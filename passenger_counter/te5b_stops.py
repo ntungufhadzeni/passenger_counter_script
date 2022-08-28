@@ -1,11 +1,11 @@
 import pandas as pd
 from datetime import datetime, timedelta
+from passenger_counter import schedule
 
 
 def get_te5b_stops(arg_df):
-    df_s = pd.read_excel('schedule.xlsx', 'TE5B_Timetable')
-    indexes = list(arg_df.index)
-    dt_s = arg_df.loc[indexes[0], 'Date']
+    df_s = pd.DataFrame(schedule.te5b)
+    dt_s = arg_df.loc[0, 'Date']
     routes = ['TE4 - Seshego - Madiba Park', 'TE5B - Seshego']
     stops = ['101', '102', '103', '104', '105']
 

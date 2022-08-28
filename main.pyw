@@ -2,10 +2,11 @@ from plyer import notification
 import json
 import requests
 import pandas as pd
-from passenger_counter import stops_routes, database
+from passenger_counter import stops_routes, database, te5b_stops, runs
 
 
 def main():
+    routes = ('F1', 'F4B', 'TE4', 'TE5B')
     notification.notify(title="Passenger Counter Script",
                         message="The script is running",
                         timeout=10)
@@ -24,6 +25,10 @@ def main():
     if df.shape[0] > 0:
         df = df.sort_values(by=['Alarm Time'])
         df.reset_index(inplace=True, drop=True)
+        df = te5b_stops.get_te5b_stops(df)
+
+        for route in routes:
+            df = runs.add_run(df, route)
         last_row = df.shape[0] - 1
         last_time = df['Alarm Time'][last_row]
         database.to_database(df)

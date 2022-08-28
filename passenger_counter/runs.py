@@ -1,9 +1,10 @@
 import pandas as pd
 from datetime import datetime, timedelta
+from passenger_counter import schedule
 
 
-def add_run(arg_df, sheet):
-    stations = {'F1 Timetable': {
+def add_run(arg_df, route):
+    stations = {'F1': {
         'start': 316,
         'end': '316.1',
         'b_start': 315,
@@ -11,7 +12,7 @@ def add_run(arg_df, sheet):
         'stops': ['306', '307', '308', '310', '311', '312'],
         'route': 'F1 - Flora Park'
     },
-        'TE4_Timetable': {
+        'TE4': {
             'start': 509,
             'end': '509.1',
             'b_start': 500,
@@ -20,7 +21,7 @@ def add_run(arg_df, sheet):
             'route': 'TE4 - Seshego - Madiba Park'
 
         },
-        'F4B_TimeTable': {
+        'F4B': {
             'start': 409,
             'end': '409.1',
             'b_start': 401,
@@ -28,7 +29,7 @@ def add_run(arg_df, sheet):
             'stops': ['402', '403', '404', '405', '406'],
             'route': 'F4B - Westernburg'
         },
-        'TE5B_Timetable': {
+        'TE5B': {
             'start': 509,
             'end': '509.1',
             'b_start': 500,
@@ -38,10 +39,17 @@ def add_run(arg_df, sheet):
         }
     }
 
-    data = stations[sheet]
-    df_s = pd.read_excel('schedule.xlsx', sheet)
-    indexes = list(arg_df.index)
-    dt_s = arg_df.loc[indexes[0], 'Date']
+    data = stations[route]
+    if route == 'F1':
+        df_s = pd.DataFrame(schedule.f1)
+    elif route == 'F4B':
+        df_s = pd.DataFrame(schedule.f4)
+    elif route == 'TE4':
+        df_s = pd.DataFrame(schedule.te4)
+    else:
+        df_s = pd.DataFrame(schedule.te5b)
+
+    dt_s = arg_df.loc[0, 'Date']
     stops = data['stops']
     for index in df_s.index:
         start_time_str = df_s.loc[index, data['start']].strftime('%H:%M')
