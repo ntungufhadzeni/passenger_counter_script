@@ -11,6 +11,6 @@ engine = create_engine('postgresql://' + USER + ':' + PASSWORD + '@' + HOST + ':
 
 def to_database(arg_df):
     arg_df = arg_df.reset_index(drop=True)
-    # arg_df.to_sql('trips_v2', engine, if_exists='append', chunksize=1000)
+    arg_df.to_sql('trips_v4', engine, if_exists='append', chunksize=1000)
     arg_df.to_sql('trips_development_v2', engine, if_exists='append', chunksize=1000)
     print('Done Exporting.')
