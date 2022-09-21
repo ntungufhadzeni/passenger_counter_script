@@ -24,7 +24,7 @@ def get_stops_routes(arg_df):
         'TE5B - Seshego': ['506', '504', '502', '101', '102', '103', '104', '105'],
         'F4B - Westernburg': ['409', '400', '401', '402', '403', '404', '405', '407', '408']
     }
-
+    print('Getting stop names and routes...')
     for index in arg_df.index:
         v = arg_df.loc[index, 'GNSS']
 

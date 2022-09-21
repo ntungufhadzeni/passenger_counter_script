@@ -1,1 +1,1 @@
-pyw C:\Users\mbudz\Documents\Projects\Work\passenger_counter_script\passenger_counter.pyw
+pyw C:\Users\Administrator\Documents\Ntungufhadzeni\passenger_counter_script\main.pyw
